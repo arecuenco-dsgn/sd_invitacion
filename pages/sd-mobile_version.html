@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gyroscope 3D Interaction</title>
+  <title>Gyroscope 3D Interaction with Debugging</title>
   <style>
     body {
       margin: 0;
@@ -37,14 +37,55 @@
     #permission-button.hidden {
       display: none;
     }
+    #debug-panel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+      z-index: 1000;
+    }
+    #debug-panel p {
+      margin: 5px 0;
+    }
   </style>
 </head>
 <body>
   <div id="square"></div>
   <button id="permission-button">Enable Motion</button>
+  <div id="debug-panel">
+    <p>initialBeta: <span id="initialBeta">-</span></p>
+    <p>initialGamma: <span id="initialGamma">-</span></p>
+    <p>rawBeta: <span id="rawBeta">-</span></p>
+    <p>rawGamma: <span id="rawGamma">-</span></p>
+    <p>tiltX: <span id="tiltX">-</span></p>
+    <p>tiltY: <span id="tiltY">-</span></p>
+    <p>rotateX: <span id="rotateX">-</span></p>
+    <p>rotateY: <span id="rotateY">-</span></p>
+    <p>rotateZ: <span id="rotateZ">0</span></p>
+    <p>isCalibrated: <span id="isCalibrated">false</span></p>
+  </div>
   <script>
     const square = document.getElementById('square');
     const permissionButton = document.getElementById('permission-button');
+
+    // Debug panel elements
+    const debugElements = {
+      initialBeta: document.getElementById('initialBeta'),
+      initialGamma: document.getElementById('initialGamma'),
+      rawBeta: document.getElementById('rawBeta'),
+      rawGamma: document.getElementById('rawGamma'),
+      tiltX: document.getElementById('tiltX'),
+      tiltY: document.getElementById('tiltY'),
+      rotateX: document.getElementById('rotateX'),
+      rotateY: document.getElementById('rotateY'),
+      rotateZ: document.getElementById('rotateZ'),
+      isCalibrated: document.getElementById('isCalibrated'),
+    };
 
     // Variables to hold calibration offsets
     let initialBeta = 0;
@@ -74,6 +115,18 @@
 
       // Optionally add a constant rotation for rotateZ
       const rotateZ = 0;
+
+      // Update debug panel
+      debugElements.initialBeta.textContent = initialBeta.toFixed(2);
+      debugElements.initialGamma.textContent = initialGamma.toFixed(2);
+      debugElements.rawBeta.textContent = rawBeta.toFixed(2);
+      debugElements.rawGamma.textContent = rawGamma.toFixed(2);
+      debugElements.tiltX.textContent = tiltX.toFixed(2);
+      debugElements.tiltY.textContent = tiltY.toFixed(2);
+      debugElements.rotateX.textContent = rotateX.toFixed(2);
+      debugElements.rotateY.textContent = rotateY.toFixed(2);
+      debugElements.rotateZ.textContent = rotateZ.toFixed(2);
+      debugElements.isCalibrated.textContent = isCalibrated;
 
       // Apply 3D rotation transform
       square.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
