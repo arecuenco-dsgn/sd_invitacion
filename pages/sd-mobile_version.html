@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gyroscope Interaction</title>
+  <title>Gyroscope 3D Interaction</title>
   <style>
     body {
       margin: 0;
@@ -20,6 +19,8 @@
       height: 100px;
       background-color: #3498db;
       border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      transform-style: preserve-3d;
       transition: transform 0.1s ease-out;
     }
     #permission-button {
@@ -45,15 +46,20 @@
     const square = document.getElementById('square');
     const permissionButton = document.getElementById('permission-button');
 
-    // Function to handle device orientation
+    // Function to handle device orientation and apply 3D rotation
     function handleOrientation(event) {
-      const tiltX = event.beta; // Front-back tilt
-      const tiltY = event.gamma; // Left-right tilt
+      const tiltX = event.beta; // Front-back tilt [-180, 180]
+      const tiltY = event.gamma; // Left-right tilt [-90, 90]
 
-      const xOffset = Math.min(Math.max(tiltY, -45), 45) * 2; // Limit to [-45, 45]
-      const yOffset = Math.min(Math.max(tiltX, -45), 45) * 2;
+      // Map tilt values to rotateX and rotateY
+      const rotateX = Math.min(Math.max(tiltX, -45), 45); // Limit rotation to [-45, 45]
+      const rotateY = Math.min(Math.max(tiltY, -45), 45);
 
-      square.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      // Optionally add a constant rotation for rotateZ
+      const rotateZ = 0;
+
+      // Apply 3D rotation transform
+      square.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
     }
 
     // Function to request permission for iOS
