@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gyroscope Interaction</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+    #square {
+      width: 100px;
+      height: 100px;
+      background-color: #3498db;
+      border-radius: 10px;
+      transition: transform 0.1s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div id="square"></div>
+  <script>
+    const square = document.getElementById('square');
+
+    // Check if DeviceOrientationEvent is supported
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', (event) => {
+        // Get the tilt data
+        const tiltX = event.beta; // Front-back tilt
+        const tiltY = event.gamma; // Left-right tilt
+
+        // Map tilt values to transform the square
+        const xOffset = Math.min(Math.max(tiltY, -45), 45) * 2; // Limit to [-45, 45]
+        const yOffset = Math.min(Math.max(tiltX, -45), 45) * 2;
+
+        // Apply transform to square
+        square.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+    } else {
+      alert('Device Orientation is not supported on this device.');
+    }
+  </script>
+</body>
+</html>
