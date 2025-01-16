@@ -55,137 +55,137 @@
   </style>
 </head>
 <body>
-  <div id="square"></div>
-  <button id="permission-button">Enable Motion</button>
-  <div id="debug-panel">
-    <p>initialBeta: <span id="initialBeta">-</span></p>
-    <p>initialGamma: <span id="initialGamma">-</span></p>
-    <p>rawBeta: <span id="rawBeta">-</span></p>
-    <p>rawGamma: <span id="rawGamma">-</span></p>
-    <p>rawAlpha: <span id="rawAlpha">-</span></p>
-    <p>tiltX: <span id="tiltX">-</span></p>
-    <p>tiltY: <span id="tiltY">-</span></p>
-    <p>rotateX: <span id="rotateX">-</span></p>
-    <p>rotateY: <span id="rotateY">-</span></p>
-    <p>rotateZ: <span id="rotateZ">-</span></p>
-    <p>isCalibrated: <span id="isCalibrated">false</span></p>
-  </div>
-  <script>
-    const square = document.getElementById('square');
-    const permissionButton = document.getElementById('permission-button');
+    <div id="square"></div>
+    <button id="permission-button">Enable Motion</button>
+    <div id="debug-panel">
+        <p>initialBeta: <span id="initialBeta">-</span></p>
+        <p>initialGamma: <span id="initialGamma">-</span></p>
+        <p>rawBeta: <span id="rawBeta">-</span></p>
+        <p>rawGamma: <span id="rawGamma">-</span></p>
+        <p>rawAlpha: <span id="rawAlpha">-</span></p>
+        <p>tiltX: <span id="tiltX">-</span></p>
+        <p>tiltY: <span id="tiltY">-</span></p>
+        <p>rotateX: <span id="rotateX">-</span></p>
+        <p>rotateY: <span id="rotateY">-</span></p>
+        <p>rotateZ: <span id="rotateZ">-</span></p>
+        <p>isCalibrated: <span id="isCalibrated">false</span></p>
+    </div>
+    <script>
+        const square = document.getElementById('square');
+        const permissionButton = document.getElementById('permission-button');
 
-    // Debug panel elements
-    const debugElements = {
-      initialBeta: document.getElementById('initialBeta'),
-      initialGamma: document.getElementById('initialGamma'),
-      rawBeta: document.getElementById('rawBeta'),
-      rawGamma: document.getElementById('rawGamma'),
-      rawAlpha: document.getElementById('rawAlpha'),
-      tiltX: document.getElementById('tiltX'),
-      tiltY: document.getElementById('tiltY'),
-      rotateX: document.getElementById('rotateX'),
-      rotateY: document.getElementById('rotateY'),
-      rotateZ: document.getElementById('rotateZ'),
-      isCalibrated: document.getElementById('isCalibrated'),
-    };
+        // Debug panel elements
+        const debugElements = {
+        initialBeta: document.getElementById('initialBeta'),
+        initialGamma: document.getElementById('initialGamma'),
+        rawBeta: document.getElementById('rawBeta'),
+        rawGamma: document.getElementById('rawGamma'),
+        rawAlpha: document.getElementById('rawAlpha'),
+        tiltX: document.getElementById('tiltX'),
+        tiltY: document.getElementById('tiltY'),
+        rotateX: document.getElementById('rotateX'),
+        rotateY: document.getElementById('rotateY'),
+        rotateZ: document.getElementById('rotateZ'),
+        isCalibrated: document.getElementById('isCalibrated'),
+        };
 
-    // Variables to hold calibration offsets
-    let initialBeta = 0;
-    let initialGamma = 0;
-    let initialAlpha = 0;
-    let isCalibrated = false;
+        // Variables to hold calibration offsets
+        let initialBeta = 0;
+        let initialGamma = 0;
+        let initialAlpha = 0;
+        let isCalibrated = false;
 
-    // Function to handle device orientation and apply 3D rotation
-function handleOrientation(event) {
-  // Read raw tilt data
-  const rawBeta = event.beta; // Front-back tilt [-180, 180]
-  const rawGamma = event.gamma; // Left-right tilt [-90, 90]
-  const rawAlpha = event.alpha; // Rotation around Z-axis [0, 360]
+        // Function to handle device orientation and apply 3D rotation
+        function handleOrientation(event) {
+        // Read raw tilt data
+        const rawBeta = event.beta; // Front-back tilt [-180, 180]
+        const rawGamma = event.gamma; // Left-right tilt [-90, 90]
+        const rawAlpha = event.alpha; // Rotation around Z-axis [0, 360]
 
-  // Calibrate on the first event
-  if (!isCalibrated) {
-    initialBeta = rawBeta;
-    initialGamma = rawGamma;
-    initialAlpha = rawAlpha;
-    isCalibrated = true;
-  }
+        // Calibrate on the first event
+        if (!isCalibrated) {
+            initialBeta = rawBeta;
+            initialGamma = rawGamma;
+            initialAlpha = rawAlpha;
+            isCalibrated = true;
+        }
 
-  // Normalize values relative to the initial calibration
-  const tiltX = rawBeta - initialBeta;
-  const tiltY = rawGamma - initialGamma;
+        // Normalize values relative to the initial calibration
+        const tiltX = rawBeta - initialBeta;
+        const tiltY = rawGamma - initialGamma;
 
-  // Limit Z-axis rotation (rawAlpha) to -20° to 20°
-  let rawRotateZ = rawAlpha - initialAlpha; // Adjust by initial calibration
-  rawRotateZ = (rawRotateZ + 360) % 360; // Normalize to 0-360°
+        // Limit Z-axis rotation (rawAlpha) to -20° to 20°
+        let rawRotateZ = rawAlpha - initialAlpha; // Adjust by initial calibration
+        rawRotateZ = (rawRotateZ + 360) % 360; // Normalize to 0-360°
 
-  let rotateZ;
-  if (rawRotateZ >= 340 || rawRotateZ <= 20) {
-    // Map 340°-360° to -20° to 0° and 0°-20° to 0° to 20°
-    rotateZ = rawRotateZ >= 340 ? rawRotateZ - 360 : rawRotateZ;
-  } else {
-    rotateZ = 0; // Outside the range, set to 0° (neutral)
-  }
+        let rotateZ;
+        if (rawRotateZ >= 340 || rawRotateZ <= 20) {
+            // Map 340°-360° to -20° to 0° and 0°-20° to 0° to 20°
+            rotateZ = rawRotateZ >= 340 ? rawRotateZ - 360 : rawRotateZ;
+        } else {
+            rotateZ = 0; // Outside the range, set to 0° (neutral)
+        }
 
-  // Clamp rotateZ to [-20°, 20°]
-  rotateZ = Math.min(Math.max(rotateZ, -20), 20);
+        // Clamp rotateZ to [-20°, 20°]
+        rotateZ = Math.min(Math.max(rotateZ, -20), 20);
 
-  // Map tilt values to rotateX and rotateY
-  const rotateX = Math.min(Math.max(tiltX, -45), 45); // Limit rotation to [-45, 45]
-  const rotateY = Math.min(Math.max(tiltY, -45), 45);
+        // Map tilt values to rotateX and rotateY
+        const rotateX = Math.min(Math.max(tiltX, -45), 45); // Limit rotation to [-45, 45]
+        const rotateY = Math.min(Math.max(tiltY, -45), 45);
 
-  // Update debug panel
-  debugElements.initialBeta.textContent = initialBeta.toFixed(2);
-  debugElements.initialGamma.textContent = initialGamma.toFixed(2);
-  debugElements.rawBeta.textContent = rawBeta.toFixed(2);
-  debugElements.rawGamma.textContent = rawGamma.toFixed(2);
-  debugElements.rawAlpha.textContent = rawAlpha.toFixed(2);
-  debugElements.tiltX.textContent = tiltX.toFixed(2);
-  debugElements.tiltY.textContent = tiltY.toFixed(2);
-  debugElements.rotateX.textContent = rotateX.toFixed(2);
-  debugElements.rotateY.textContent = rotateY.toFixed(2);
-  debugElements.rotateZ.textContent = rotateZ.toFixed(2);
-  debugElements.isCalibrated.textContent = isCalibrated;
+        // Update debug panel
+        debugElements.initialBeta.textContent = initialBeta.toFixed(2);
+        debugElements.initialGamma.textContent = initialGamma.toFixed(2);
+        debugElements.rawBeta.textContent = rawBeta.toFixed(2);
+        debugElements.rawGamma.textContent = rawGamma.toFixed(2);
+        debugElements.rawAlpha.textContent = rawAlpha.toFixed(2);
+        debugElements.tiltX.textContent = tiltX.toFixed(2);
+        debugElements.tiltY.textContent = tiltY.toFixed(2);
+        debugElements.rotateX.textContent = rotateX.toFixed(2);
+        debugElements.rotateY.textContent = rotateY.toFixed(2);
+        debugElements.rotateZ.textContent = rotateZ.toFixed(2);
+        debugElements.isCalibrated.textContent = isCalibrated;
 
-  // Apply 3D rotation transform
-  square.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
-}
+        // Apply 3D rotation transform
+        square.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
+        }
 
-    // Function to request permission for iOS
-    function requestPermission() {
-      if (
-        typeof DeviceMotionEvent !== 'undefined' &&
-        typeof DeviceMotionEvent.requestPermission === 'function'
-      ) {
-        DeviceMotionEvent.requestPermission()
-          .then((response) => {
-            if (response === 'granted') {
-              window.addEventListener('deviceorientation', handleOrientation);
-              permissionButton.classList.add('hidden');
-            } else {
-              alert('Permission denied for motion data.');
-            }
-          })
-          .catch((error) => {
-            console.error('Permission request failed:', error);
-          });
-      } else {
-        // Non-iOS devices don't require this step
+        // Function to request permission for iOS
+        function requestPermission() {
+        if (
+            typeof DeviceMotionEvent !== 'undefined' &&
+            typeof DeviceMotionEvent.requestPermission === 'function'
+        ) {
+            DeviceMotionEvent.requestPermission()
+            .then((response) => {
+                if (response === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+                permissionButton.classList.add('hidden');
+                } else {
+                alert('Permission denied for motion data.');
+                }
+            })
+            .catch((error) => {
+                console.error('Permission request failed:', error);
+            });
+        } else {
+            // Non-iOS devices don't require this step
+            window.addEventListener('deviceorientation', handleOrientation);
+            permissionButton.classList.add('hidden');
+        }
+        }
+
+        // Attach event listener to the button
+        permissionButton.addEventListener('click', requestPermission);
+
+        // Automatically add listener for non-iOS devices
+        if (
+        typeof DeviceMotionEvent === 'undefined' ||
+        typeof DeviceMotionEvent.requestPermission !== 'function'
+        ) {
         window.addEventListener('deviceorientation', handleOrientation);
         permissionButton.classList.add('hidden');
-      }
-    }
-
-    // Attach event listener to the button
-    permissionButton.addEventListener('click', requestPermission);
-
-    // Automatically add listener for non-iOS devices
-    if (
-      typeof DeviceMotionEvent === 'undefined' ||
-      typeof DeviceMotionEvent.requestPermission !== 'function'
-    ) {
-      window.addEventListener('deviceorientation', handleOrientation);
-      permissionButton.classList.add('hidden');
-    }
+        }
   </script>
 </body>
 </html>
