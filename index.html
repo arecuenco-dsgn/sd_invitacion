@@ -6,9 +6,12 @@
             <title>Snippet - GoSNippets</title>
             <link href='' rel='stylesheet'>
             <link href='' rel='stylesheet'>
+            <link rel="stylesheet" href="https://use.typekit.net/wit5lmt.css">
             <style>
                 :root {
-                --card-size: 560px;
+                --card-size: 60vh;
+                --b-font-size: 8px;
+                --space-multiplier: 2;
                 }
 
                 * {
@@ -19,99 +22,79 @@
 
                 body {
                     width: 100%;
-                    height: 100vh;
                     display: flex;
                     flex-direction: column;
                     gap: 40px;  
-                    justify-content: center;
+                    justify-content: flex-start;
                     align-items: center;
                     font-family: 'roboto', sans-serif;
                     background: rgb(28, 27, 28);
                     perspective: 1000px;
                 }
 
+                main {
+                    position: relative;
+                    max-width: 640px;
+                    background: #ffffff;
+                    display: flex;
+                    flex-direction: column;
+                    width: -webkit-fill-available;
+                    text-align: center;
+                    gap: 80px;
+                    padding: 64px 40px 216px 40px;
+                    background-image: url(./img/sd-textura_bg.png);
+                    background-size: contain;
+                    background-repeat: repeat-y;    
+                    margin-bottom: 80px; 
+                }
+                main::before {
+                    content: "";
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    left: 0px;
+                    /*background-color: rgb(242 242 242 / 50%);
+                    opacity: 0.5;
+                    mix-blend-mode: color-dodge;*/
+                }
+                #hero_card {
+                    display: flex;
+                    width: 100%;
+                    height: 100vh;
+                    align-content: center;
+                    justify-content: center;
+                    align-items: center;
+                    perspective: 1000px;
+                }
                 .card {
                     width: var(--card-size);
                     height: var(--card-size);
+                    max-width: 800px;
+                    max-height: 800px;
                     transform-style: preserve-3d;
                     transition: 0.5s;
-                    background: url(img/invitacion-front.svg);
-                    background-size: cover;
+                    background: url(img/invitacion-front.svg), url(./img/sd-textura_bg@4x.png);
+                    background-size: cover, contain;
+                    background-repeat: no-repeat, repeat-y; 
                     border-radius: 2px;
                     transform: translateZ(40px);
                 }
-
-                .card-img {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    background: url(img/invitacion-front.svg);
-                    background-size: cover;
-                    border-radius: 2px;
-                    transform: translateZ(40px);
+                .areas_container {
+                    width: var(--card-size);
+                    height: var(--card-size);
+                    max-width: 800px;
+                    max-height: 800px;
+                    display: grid; 
+                    grid-template-columns: 1fr 1fr 1fr; 
+                    grid-template-rows: 1fr 1fr 1fr; 
+                    gap: 0px 0px; 
+                    pointer-events: none;
                 }
-
-                .card-body {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate3d(-50%, -50%, -40px) rotateY(180deg);
-                    width: 85%;
-                    height: 87%;
-                    border-radius: 20px;
-                    overflow: hidden;
-                    border: 5px solid #fff;
+                .hover_area {
+                    display: block;
+                    pointer-events: auto;
                 }
-
-                .card:hover {
-                    
-                }
-
-                .card-body .bg {
-                    position: absolute;
-                    background: #fff;
-                    border-radius: 100px;
-                    width: 0%;
-                    transition: .5s;
-                }
-
-                .card-body .bg:nth-child(1) {
-                    height: 25%;
-                    transform-origin: left;
-                    top: 0;
-                    left: -30%;
-                    transform: rotate(-10deg);
-                }
-
-                .card-body .bg:nth-child(2) {
-                    height: 50%;
-                    transform-origin: right;
-                    top: 5%;
-                    right: -30%;
-                    transform: rotate(-10deg);
-                }
-
-                .card-body .bg:nth-child(3) {
-                    height: 50%;
-                    transform-origin: left;
-                    top: 70%;
-                    left: -30%;
-                    transform: rotate(-10deg);
-                }
-
-                .card:hover .card-body .bg {
-                    width: 200%;
-                    transition-delay: 1s;
-                }
-
-                .card:hover .card-body .bg:nth-child(2) {
-                    transition-delay: 1.5s;
-                }
-
-                .card:hover .card-body .bg:nth-child(3) {
-                    transition-delay: 2s;
-                }
-
                 .content {
                     position: relative;
                     opacity: 0;
@@ -119,33 +102,15 @@
                     padding: 40px 10px;
                     text-align: center;
                 }
-
                 .title {
                     font-size: 60px;
                     margin-bottom: 20px;
                     color: #292929;
                     text-transform: uppercase;
                 }
-
                 .card:hover .content {
                     opacity: 1;
                     transition-delay: 2.5s;
-                }
-
-                .areas_container {
-                    display: flex;
-                    width: 100%;
-                    height: 100%;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    align-items: stretch;
-                    pointer-events: none;
-                }
-                .hover_area {
-                    display: block;
-                    width: calc(var(--card-size)/3);
-                    max-height: calc(var(--card-size)/3);
-                    pointer-events: auto;
                 }
                 /*you may replace this with an explicit className, e.g. :has(.child1)*/
                 .card:has(#hover-area_1:hover) {
@@ -167,28 +132,259 @@
                     transform: rotateY(-5deg) rotateX(5deg) rotateZ(0deg);
                 }
                 .card:has(#hover-area_7:hover) {
-                    transform: rotateY(-15deg) rotateX(-5deg) rotateZ(-5deg);
+                    transform: rotateY(5deg) rotateX(10deg) rotateZ(5deg);
                 }
                 .card:has(#hover-area_8:hover) {
-                    transform: rotateY(0deg) rotateX(-10deg) rotateZ(0deg);
+                    transform: rotateY(0deg) rotateX(10deg) rotateZ(0deg)
                 }
                 .card:has(#hover-area_9:hover) {
-                    transform: rotateY(15deg) rotateX(5deg) rotateZ(5deg);
+                    transform: rotateY(-5deg) rotateX(10deg) rotateZ(-5deg);
                 }
 
                 .button {
                     background-color: #3b3b3b;
-                    /* Green */
                     border: none;
                     color: white;
-                    padding: 10px 20px;
+                    padding: 4px 8px;
                     text-align: center;
                     text-decoration: none;
                     display: inline-block;
-                    font-size: 16px;
+                    font-size: 10px;
                     margin: 4px 2px;
                     cursor: pointer;
                     border-radius: 4px;
+                    position: absolute;
+                    top: 20px;
+                }
+                .font-regular {
+                    font-family: "corundum-text", serif;
+                    font-weight: 300;
+                    font-style: normal;
+                }
+                .font-regular-i {
+                    font-family: "corundum-text", serif;
+                    font-weight: 300;   
+                    font-style: italic;
+                }
+                .font-semibold {
+                    font-family: "corundum-text", serif;
+                    font-weight: 600;
+                    font-style: normal;
+                }
+                .font-semibold-i {
+                    font-family: "corundum-text", serif;
+                    font-weight: 600;
+                    font-style: italic;
+                }
+                .font-sc-regular {
+                    font-family: "corundum-text-sc", serif;
+                    font-weight: 300;
+                    font-style: normal;
+                }
+                .font-sc-regular-i {
+                    font-family: "corundum-text-sc", serif;
+                    font-weight: 300;
+                    font-style: italic;
+                }
+                .font-sc-bold {
+                    font-family: "corundum-text-sc", serif;
+                    font-weight: 700;
+                    font-style: normal;
+                }
+                .font-sc-bold-i {
+                    font-family: "corundum-text-sc", serif;
+                    font-weight: 700;
+                    font-style: italic;
+                }
+                h1 {
+                    font-size: calc(var(--b-font-size)*5);
+                    line-height: calc(var(--b-font-size)*6);
+                }
+                h2 {
+                    font-size: calc(var(--b-font-size)*3);
+                    line-height: calc(var(--b-font-size)*3.5);
+                }
+                h3 {
+                    font-size: calc(var(--b-font-size)*4);
+                    line-height: calc(var(--b-font-size)*4);
+                    letter-spacing: 1.2px;
+                }
+                p {
+                    font-size: calc(var(--b-font-size)*3);
+                    line-height: calc(var(--b-font-size)*3.5);
+                    letter-spacing: 0.8px;
+                }
+                small {
+                    font-size: calc(var(--b-font-size)*2.5);
+                    line-height: calc(var(--b-font-size)*3);
+                    letter-spacing: 0.4px;
+                }
+                main .content-box {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 12px;
+                    z-index: 10;
+                }
+                main header {
+                    gap: 0px !important;
+                }
+                main .header-divider {
+                    max-width: 360px;
+                    padding-top: 16px;
+                }
+                .content-box-header, #header-top-img {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0px;
+                    width: 100%;
+                }
+                hr {
+                    width: 160px;
+                    margin-inline: auto;
+                    background-color: #a5a5a5;
+                    height: 1.5px;
+                    border: none;
+                    margin-top: 4px;
+                } 
+                #hero_img_top {
+                    max-width: 640px;
+                    width: 100%;
+                } 
+                #hero_img_divider {
+                    max-width: 360px;
+                    width: 56%;
+                }
+                .thumdnails {
+                    width: 100%;
+                }
+                .thumdnails img {
+                    max-width: 480px;
+                    width: 80%;
+                }
+                #border-box {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    top: 5px;
+                    left: 0px;
+                    right: 0px;
+                    z-index: 1;
+                    bottom: 0px;
+                    overflow: hidden;
+                }
+                .border-section {
+                    display: flex; /* Ensure inner content aligns properly */
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                }
+                .border-section img {
+                    max-width: 100%; /* Ensure images fit their containers */
+                    height: auto; /* Maintain aspect ratio by default */
+                }
+                .border-section.fix {
+                    flex: 0 0 auto; /* Prevent resizing, maintain fixed size */
+                }
+                .border-section.link {
+                    flex: 1 1 auto; /* Allow stretching to fill available space */
+                    background-size: 100% auto;
+                    background-position: center;
+                }
+                .border-section.link img {
+                    height: 100%; /* Make the image stretch with its container */
+                    width: auto; /* Maintain the aspect ratio */
+                    object-fit: cover;
+                }
+                .link_img_1 {
+                    background-image: url(img/sd-border_link_1.svg);
+                }
+                .link_img_2 {
+                    background-image: url(img/sd-border_link_2.svg);
+                }
+                .rotate_img {
+                    transform: scaleX(-1);
+                }
+                main header h1 {
+                    margin-top: -28px;
+                }
+                main #content_1 h3 {
+                    margin-top: -56px;
+                }
+                main #content_2 h3 {
+                    margin-top: -20px;
+                }
+                main #content_3 h3 {
+                    margin-top: -104px;
+                }
+                main #content_4 h3 {
+                    margin-top: -72px;
+                }
+                #btn-confirmacion {
+                    padding: 8px 16px 10px 16px;
+                    text-decoration: none;
+                    font-size: 16px;
+                    line-height: 20px;
+                    font-weight: 600;
+                    font-style: normal;
+                    color: #FFFFFF;
+                    background-color: #212121;
+                    border-radius: 2px; 
+                    margin-top: 8px;
+                }
+                #btn-confirmacion:hover {
+                    background-color: #000000;
+                }
+
+                #info_guide {
+                    position: absolute;
+                    top: 84vh;
+                    display: flex;
+                    flex-direction: column;
+                    width: 100vw;
+                    gap: 8px;
+                    color: #d9d9d9;
+                    align-items: center;
+                }
+                #guide_lines {
+                    display: block;
+                    width: 8px;
+                    height: 8vh;
+                    border-left: 0.5px solid #d9d9d9;
+                    border-right: 0.5px solid #d9d9d9;
+                }
+
+                @media screen and (max-width: 560px) {
+                    :root {
+                        --b-font-size: 6px;
+                        --space-multiplier: 1;
+                        --card-size: 88vw;
+                    }
+                    main {
+                        padding: 24px 16px 128px 16px;
+                        gap: 28px;
+                        margin-bottom: 3vw;
+                        max-width: 94vw;
+                    }
+                    main header h1 {
+                        margin-top: -16px;
+                    }
+                    main #content_1 h3 {
+                        margin-top: -40px;
+                    }
+                    main #content_2 h3 {
+                        margin-top: -24px;
+                    }
+                    main #content_3 h3 {
+                        margin-top: -72px;
+                    }
+                    main #content_4 h3 {
+                        margin-top: -52px;
+                    }
+                    #content_5 {
+                        padding-top: 16px;
+                    }
                 }
 
             </style>
@@ -198,21 +394,115 @@
         </head>
         <body oncontextmenu='return false' class='snippet-body'>
             
-            <div class="card">
-                <div class="areas_container" id="areas_box">
-                    <div class="hover_area" id="hover-area_1"></div>
-                    <div class="hover_area" id="hover-area_2"></div>
-                    <div class="hover_area" id="hover-area_3"></div>
-                    <div class="hover_area" id="hover-area_4"></div>
-                    <div class="hover_area" id="hover-area_5"></div>
-                    <div class="hover_area" id="hover-area_6"></div>
-                    <div class="hover_area" id="hover-area_7"></div>
-                    <div class="hover_area" id="hover-area_8"></div>
-                    <div class="hover_area" id="hover-area_9"></div>
-                </div>
-            </div>
-
             <a class="button" href="./pages/sd-mobile_version.html" >Mobile Version</a>
+
+            <figure id="hero_card">
+                <div class="card">
+                    <div class="areas_container" id="areas_box">
+                        <div class="hover_area" id="hover-area_1"></div>
+                        <div class="hover_area" id="hover-area_2"></div>
+                        <div class="hover_area" id="hover-area_3"></div>
+                        <div class="hover_area" id="hover-area_4"></div>
+                        <div class="hover_area" id="hover-area_5"></div>
+                        <div class="hover_area" id="hover-area_6"></div>
+                        <div class="hover_area" id="hover-area_7"></div>
+                        <div class="hover_area" id="hover-area_8"></div>
+                        <div class="hover_area" id="hover-area_9"></div>
+                    </div>
+                </div>
+            </figure>
+
+            <div id="info_guide">
+                <div id="guide_lines"></div>
+                <small class="font-regular">Desliza abajo</small>
+            </div>
+            <main class="font-sc-regular-i">
+
+                <header class="content-box">
+                    <section id="header-top-img">
+                        <figure id="hero_img_top">
+                            <img src="img/sd-header_1.svg" alt="Ornamentación floral">
+                        </figure>
+                        <h1 class="font-sc-bold">Sara & Daniel</h1>
+                    </section>
+                    <figure id="hero_img_divider">
+                        <img src="img/sd-header-divider_1.svg" alt="Ornamentación floral" class="header-divider">
+                    </figure>
+                    <h2 class="font-sc-regular-i">Queremos celebrar lo que somos, <br>todo lo que hemos logrado <br>y lo que aún nos queda por construir.</h2>
+                    <figure id="hero_img_divider">
+                        <img src="img/sd-header-divider_2.svg" alt="Ornamentación floral" class="header-divider">
+                    </figure>
+                    <p>te esperamos el próximo</p>
+                    <h3>5.abril.2025</h3>
+                </header>
+                
+                <article id="content_1" class="content-box">
+                    <section class="content-box-header">
+                        <figure class="thumdnails">
+                            <img src="img/sd-visual_1.svg" alt="Ilustración del lugar del evento">
+                        </figure>
+                        <h3 class="font-sc-bold">11:30h - Ceremonia</h3>
+                    </section>
+                    <p>Junta Municipal del <br>Distrito de Hortaleza</p>
+                    <hr />
+                    <small class="font-sc-regular">Carr. de Canillas, 2, <br>Hortaleza, 28043 Madrid</small>
+                </article>
+                
+                <article id="content_2" class="content-box">
+                    <section class="content-box-header">
+                        <figure class="thumdnails">
+                            <img src="img/sd-visual_2.svg" alt="Ilustración del lugar de la ceremonia">
+                        </figure>
+                        <h3 class="font-sc-bold">13:30h - Celebración</h3>
+                    </section>
+                    <p>Finca Etxemendi <br>Etxondo de Araceli</p>
+                    <hr />
+                    <small class="font-sc-regular">Ctra a, Ctra. de Colmenar, km 4.200, <br>28750 San Agustín del Guadalix, Madrid</small>
+                </article>
+                
+                <article id="content_3" class="content-box">
+                    <section class="content-box-header">
+                        <figure class="thumdnails">
+                            <img src="img/sd-visual_3.svg" alt="Bodegón de prendas de ropa con decoraciones florales para ilustrar el dresscode">
+                        </figure>
+                        <h3 class="font-sc-bold">Dresscode</h3>
+                    </section>
+                    <p>Luce tu mejor versión: <br>vanidoso, refachero, <br>tremendo pikeque</p>
+                </article>
+                
+                <article id="content_4" class="content-box">
+                    <section class="content-box-header">
+                        <figure class="thumdnails">
+                            <img src="img/sd-visual_4.svg" alt="Ilustración de una caga de regalo con decoraciones florales">
+                        </figure>
+                        <h3 class="font-sc-bold">Regalo</h3>
+                    </section>
+                    <p>Tu compañía es lo que más ilusión <br>nos hace,pero si deseas tener <br>un detalle,puedes hacerlo aquí:</p>
+                    <hr />
+                    <small class="font-sc-regular">ES00 2020-0000-11-2233445</small>
+                </article>
+                
+                <article id="content_5" class="content-box">
+                    <h3 class="font-sc-bold">¿Vienes a celebrar <br>este día con nosotros?</h3>
+                    <p>Tu respuesta es importante <br>para nosotros, confírmanos <br>antes del <strong>1 de marzo</strong>, gracias.</p>
+                    <a id="btn-confirmacion" href="#">Confirmar Asistencia</a>
+                </article>
+
+                <div id="border-box">
+                    <img class="border-section fix" src="img/sd-border-top.svg" alt="decorative border">
+                    <img class="border-section fix" src="img/sd-border_1.svg" alt="decorative border">
+                    <div class="border-section link link_img_1 rotate_img"></div>
+                    <img class="border-section fix" src="img/sd-border_2.svg" alt="decorative border">
+                    <div class="border-section link link_img_2 rotate_img"></div>
+                    <img class="border-section fix" src="img/sd-border_3.svg" alt="decorative border">
+                    <div class="border-section link link_img_1 rotate_img"></div>
+                    <img class="border-section fix" src="img/sd-border_4.svg" alt="decorative border">
+                    <div class="border-section link link_img_2 rotate_img"></div>
+                    <img class="border-section fix rotate_img" src="img/sd-border_1.svg" alt="decorative border">
+                    <div class="border-section link link_img_1 rotate_img"></div>
+                    <img class="border-section fix" src="img/sd-border_bottom.svg" alt="decorative border">
+                </div>
+            </main>
 
         <script type='text/javascript'></script>
         </body>
