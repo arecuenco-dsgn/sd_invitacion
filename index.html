@@ -74,7 +74,7 @@
                     align-items: center;
                     perspective: 1000px;
                 }
-                .card {
+                #card {
                     width: var(--card-size);
                     height: var(--card-size);
                     max-width: 800px;
@@ -115,36 +115,36 @@
                     color: #292929;
                     text-transform: uppercase;
                 }
-                .card:hover .content {
+                #card:hover .content {
                     opacity: 1;
                     transition-delay: 2.5s;
                 }
                 /*you may replace this with an explicit className, e.g. :has(.child1)*/
-                .card:has(#hover-area_1:hover) {
+                #card:has(#hover-area_1:hover) {
                     transform: rotateY(15deg) rotateX(5deg) rotateZ(-5deg);
                 }
-                .card:has(#hover-area_2:hover) {
+                #card:has(#hover-area_2:hover) {
                     transform: rotateY(0deg) rotateX(10deg) rotateZ(0deg);
                 }
-                .card:has(#hover-area_3:hover) {
+                #card:has(#hover-area_3:hover) {
                     transform: rotateY(-15deg) rotateX(-5deg) rotateZ(5deg);
                 }
-                .card:has(#hover-area_4:hover) {
+                #card:has(#hover-area_4:hover) {
                     transform: rotateY(5deg) rotateX(5deg) rotateZ(0deg);
                 }
-                .card:has(#hover-area_5:hover) {
+                #card:has(#hover-area_5:hover) {
                     transform: rotateY(0deg) rotateX(5deg) rotateZ(0deg);
                 }
-                .card:has(#hover-area_6:hover) {
+                #card:has(#hover-area_6:hover) {
                     transform: rotateY(-5deg) rotateX(5deg) rotateZ(0deg);
                 }
-                .card:has(#hover-area_7:hover) {
+                #card:has(#hover-area_7:hover) {
                     transform: rotateY(5deg) rotateX(10deg) rotateZ(5deg);
                 }
-                .card:has(#hover-area_8:hover) {
+                #card:has(#hover-area_8:hover) {
                     transform: rotateY(0deg) rotateX(10deg) rotateZ(0deg)
                 }
-                .card:has(#hover-area_9:hover) {
+                #card:has(#hover-area_9:hover) {
                     transform: rotateY(-5deg) rotateX(10deg) rotateZ(-5deg);
                 }
 
@@ -162,6 +162,7 @@
                     border-radius: 4px;
                     position: absolute;
                     top: 20px;
+                    z-index: 100;
                 }
                 .font-regular {
                     font-family: "corundum-text", serif;
@@ -443,7 +444,7 @@
             <a class="button" href="./pages/sd-mobile_version.html" >Mobile Version</a>
 
             <figure id="hero_card">
-                <div class="card">
+                <div id="card">
                     <div class="areas_container" id="areas_box">
                         <div class="hover_area" id="hover-area_1"></div>
                         <div class="hover_area" id="hover-area_2"></div>
