@@ -14,7 +14,7 @@
       background-color: #f0f0f0;
       overflow: hidden;
     }
-    #square {
+    #card {
       width: 100px;
       height: 100px;
       background-color: #3498db;
@@ -55,7 +55,7 @@
   </style>
 </head>
 <body>
-    <div id="square"></div>
+    <div id="card"></div>
     <button id="permission-button">Enable Motion</button>
     <div id="debug-panel">
         <p>initialBeta: <span id="initialBeta">-</span></p>
@@ -71,7 +71,7 @@
         <p>isCalibrated: <span id="isCalibrated">false</span></p>
     </div>
     <script>
-        const square = document.getElementById('square');
+        const card = document.getElementById('card');
         const permissionButton = document.getElementById('permission-button');
 
         // Debug panel elements
@@ -147,7 +147,7 @@
         debugElements.isCalibrated.textContent = isCalibrated;
 
         // Apply 3D rotation transform
-        square.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
         }
 
         // Function to request permission for iOS
